@@ -10,9 +10,10 @@ def pytest_addoption(parser):
 @pytest.fixture(scope='class')
 def test_setup(request):
     from selenium import webdriver
+    driver_path = os.getcwd().replace("\\", "/") + "/drivers/chromedriver.exe"
     browser = "chrome"
     if browser == "chrome":
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(executable_path=driver_path)
     elif browser == "firefox":
         driver = webdriver.Firefox()
     data = read_test_data("Test_Data.xlsx", "Login_Data", "URL")
@@ -22,4 +23,4 @@ def test_setup(request):
     driver.implicitly_wait(30)
     request.cls.driver = driver
     yield
-    driver.quit()
+    # driver.quit()
